@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trắc nghiệm: Nhập môn Thống kê – Phân loại dữ liệu & Thang đo</title>
+    <!-- MathJax (hỗ trợ công thức nếu có) -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)']],
+                displayMath: [['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f0f4fc;
+            color: #1e2f3e;
+            padding: 30px 20px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0b3b5f, #1b5a7a);
+            color: white;
+            padding: 28px 24px;
+            border-radius: 36px;
+            margin-bottom: 36px;
+            text-align: center;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .section-title {
+            font-size: 1.7rem;
+            font-weight: 700;
+            margin: 40px 0 20px 0;
+            padding-left: 16px;
+            border-left: 8px solid #e67e22;
+            color: #0b3b5f;
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+            margin-bottom: 28px;
+            padding: 22px 26px;
+            transition: 0.2s;
+            border: 1px solid #e2edf7;
+        }
+
+        .question-text {
+            font-size: 1.18rem;
+            font-weight: 600;
+            color: #1f3b4c;
+            margin-bottom: 20px;
+            background: #f8fafd;
+            padding: 12px 18px;
+            border-radius: 24px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .opt-btn {
+            background: #f9fcff;
+            border: 2px solid #dce5f0;
+            border-radius: 60px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: left;
+            cursor: pointer;
+            transition: 0.15s;
+            display: flex;
+            align-items: center;
+            font-family: inherit;
+            color: #1f3b4c;
+        }
+
+        .opt-btn:hover:not(:disabled) {
+            background: #eef2ff;
+            border-color: #e67e22;
+            transform: scale(1.01);
+        }
+
+        .opt-letter {
+            font-weight: 800;
+            background: #e2eaf1;
+            width: 34px;
+            height: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 40px;
+            margin-right: 16px;
+            font-size: 1rem;
+        }
+
+        .opt-btn.correct {
+            background: #2ecc71;
+            border-color: #27ae60;
+            color: white;
+        }
+        .opt-btn.correct .opt-letter {
+            background: white;
+            color: #2ecc71;
+        }
+
+        .opt-btn.incorrect {
+            background: #e74c3c;
+            border-color: #c0392b;
+            color: white;
+        }
+        .opt-btn.incorrect .opt-letter {
+            background: white;
+            color: #e74c3c;
+        }
+
+        .explanation {
+            background: #fef5e8;
+            border-left: 6px solid #e67e22;
+            padding: 16px 20px;
+            border-radius: 20px;
+            margin-top: 14px;
+            display: none;
+            font-size: 0.95rem;
+            color: #2c3e50;
+        }
+
+        .feedback {
+            margin-top: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            font-size: 0.85rem;
+            color: #5a6e85;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>📊 NHẬP MÔN THỐNG KÊ</h1>
+        <p>Phân loại dữ liệu · Thang đo · Mô tả & Suy diễn</p>
+        <p style="font-size: 0.9rem; margin-top: 8px;">✨ Chọn đáp án – Xem đúng/sai + giải thích chi tiết ✨</p>
+    </div>
+    <div id="quiz-root"></div>
+    <footer>📐 “Một thìa canh cho cả nồi” – Nghệ thuật suy diễn từ mẫu ra tổng thể | Dr.rer.nat Duymt</footer>
+</div>
+
+<script>
+    // ------------------- 20 CÂU HỎI (5 lý thuyết, 5 dễ, 5 TB, 5 khó) -------------------
+    const questions = [
+        // ========== LÝ THUYẾT (5 câu) ==========
+        { 
+            category: "📘 LÝ THUYẾT NỀN TẢNG",
+            text: "Thống kê mô tả (Descriptive Statistics) nhằm mục đích chính là gì?",
+            options: ["Dự báo tương lai từ dữ liệu", "Tóm tắt và trình bày dữ liệu hiện có", "Kiểm định giả thuyết thống kê", "Suy luận từ mẫu ra tổng thể"],
+            correct: 1,
+            explanation: "✅ Thống kê mô tả giống như 'chụp ảnh' dữ liệu thực tế: tính trung bình, vẽ biểu đồ, tóm tắt số liệu."
+        },
+        { 
+            category: "📘 LÝ THUYẾT NỀN TẢNG",
+            text: "Thống kê suy diễn (Inferential Statistics) khác với mô tả ở điểm nào?",
+            options: ["Chỉ dùng cho số liệu định tính", "Dùng để tóm tắt bảng dữ liệu", "Từ mẫu đại diện suy luận cho toàn bộ quần thể", "Không cần dữ liệu"],
+            correct: 2,
+            explanation: "🎯 Suy diễn: từ mẫu (một thìa canh) → đưa ra kết luận cho cả quần thể (cả nồi canh)."
+        },
+        { 
+            category: "📘 LÝ THUYẾT NỀN TẢNG",
+            text: "Biến định tính (Qualitative) có đặc điểm nào sau đây?",
+            options: ["Luôn là số thực", "Mô tả thuộc tính, không đo bằng số đại số", "Có thể tính trung bình cộng", "Luôn có thứ tự cao thấp"],
+            correct: 1,
+            explanation: "🎨 Biến định tính: màu sắc, giới tính, loại sản phẩm – không thực hiện phép tính cộng trừ ý nghĩa."
+        },
+        { 
+            category: "📘 LÝ THUYẾT NỀN TẢNG",
+            text: "Ví dụ nào dưới đây thuộc biến định lượng (Quantitative)?",
+            options: ["Mã số sinh viên", "Giới tính", "Chiều cao (cm)", "Màu sắc yêu thích"],
+            correct: 2,
+            explanation: "📏 Chiều cao là số đo thực, có thể tính trung bình, so sánh tỷ lệ – là định lượng."
+        },
+        { 
+            category: "📘 LÝ THUYẾT NỀN TẢNG",
+            text: "Lý do chính để sử dụng mẫu (sample) thay vì khảo sát toàn bộ quần thể (population) là gì?",
+            options: ["Mẫu luôn chính xác hơn", "Tiết kiệm chi phí và thời gian, đôi khi bắt buộc", "Quần thể không tồn tại", "Mẫu không cần tính đại diện"],
+            correct: 1,
+            explanation: "💰 Khảo sát toàn bộ tốn kém, có thể phá hủy sản phẩm (kiểm tra độ bền) → lấy mẫu đại diện."
+        },
+
+        // ========== BÀI TẬP DỄ (5 câu) ==========
+        { 
+            category: "📗 BÀI TẬP DỄ",
+            text: "Biến 'màu mắt' (xanh, nâu, đen) thuộc loại thang đo nào?",
+            options: ["Nominal", "Ordinal", "Interval", "Ratio"],
+            correct: 0,
+            explanation: "👁️ Màu mắt: chỉ phân loại, không có thứ tự → thang đo định danh (Nominal)."
+        },
+        { 
+            category: "📗 BÀI TẬP DỄ",
+            text: "Xếp hạng thành tích học tập (Nhất, Nhì, Ba) là thang đo:",
+            options: ["Nominal", "Ordinal", "Interval", "Ratio"],
+            correct: 1,
+            explanation: "🏆 Có thứ tự nhất < nhì < ba, nhưng khoảng cách không bằng nhau → Ordinal."
+        },
+        { 
+            category: "📗 BÀI TẬP DỄ",
+            text: "Nhiệt độ ngoài trời đo bằng độ C (°C) là thang đo:",
+            options: ["Nominal", "Ordinal", "Interval", "Ratio"],
+            correct: 2,
+            explanation: "🌡️ 0°C không phải 'không có nhiệt độ', khoảng cách 1°C bằng nhau → Interval."
+        },
+        { 
+            category: "📗 BÀI TẬP DỄ",
+            text: "Cân nặng của một người (kg) thuộc thang đo:",
+            options: ["Nominal", "Ordinal", "Interval", "Ratio"],
+            correct: 3,
+            explanation: "⚖️ 0kg = không có khối lượng, có thể nói 'nặng gấp đôi' → Ratio."
+        },
+        { 
+            category: "📗 BÀI TẬP DỄ",
+            text: "Số áo của cầu thủ bóng đá (số 10, 7, 1) thực chất là biến:",
+            options: ["Định lượng – Ratio", "Định lượng – Interval", "Định tính – Nominal", "Định tính – Ordinal"],
+            correct: 2,
+            explanation: "👕 Số áo chỉ là nhãn dán, không thể tính trung bình → định tính, thang đo Nominal."
+        },
+
+        // ========== BÀI TẬP TRUNG BÌNH (5 câu) ==========
+        { 
+            category: "📙 BÀI TẬP TRUNG BÌNH",
+            text: "Phát biểu nào đúng về thang đo Interval?",
+            options: ["Có điểm 0 tuyệt đối", "Không có thứ tự", "Khoảng cách bằng nhau, 0 quy ước", "Chỉ dùng để phân loại"],
+            correct: 2,
+            explanation: "📐 Interval: có thứ tự + khoảng cách đều, nhưng số 0 mang tính quy ước (0°C, năm 0)."
+        },
+        { 
+            category: "📙 BÀI TẬP TRUNG BÌNH",
+            text: "Điều nào sau đây KHÔNG thể thực hiện được với thang đo Ordinal?",
+            options: ["So sánh lớn hơn/bé hơn", "Tính trung vị", "Kết luận 'A gấp đôi B'", "Xếp thứ tự"],
+            correct: 2,
+            explanation: "⚠️ Ordinal có thứ tự nhưng không xác định khoảng cách → không thể nói 'gấp đôi'."
+        },
+        { 
+            category: "📙 BÀI TẬP TRUNG BÌNH",
+            text: "Trong bốn thang đo, thang đo nào có đầy đủ tính chất: thứ tự + khoảng cách bằng nhau + điểm 0 tuyệt đối?",
+            options: ["Nominal", "Ordinal", "Interval", "Ratio"],
+            correct: 3,
+            explanation: "✅ Ratio là thang đo mạnh nhất, cho phép so sánh tỷ lệ (gấp đôi, gấp ba)."
+        },
+        { 
+            category: "📙 BÀI TẬP TRUNG BÌNH",
+            text: "Một công ty muốn khảo sát ý kiến khách hàng với mức độ: 'Rất không hài lòng, Không hài lòng, Bình thường, Hài lòng, Rất hài lòng'. Đây là thang đo:",
+            options: ["Nominal", "Ordinal", "Interval", "Ratio"],
+            correct: 1,
+            explanation: "😊 Có thứ tự rõ ràng nhưng khoảng cách cảm nhận không bằng nhau → Ordinal."
+        },
+        { 
+            category: "📙 BÀI TẬP TRUNG BÌNH",
+            text: "Nếu bạn cộng mã số sinh viên (ví dụ: 20120001 + 20120002) thì kết quả:",
+            options: ["Có ý nghĩa thống kê", "Là biến định lượng mới", "Hoàn toàn vô nghĩa", "Là thang đo Ratio"],
+            correct: 2,
+            explanation: "🎓 Mã số chỉ là nhãn danh định tính, phép cộng không mang ý nghĩa thực tế."
+        },
+
+        // ========== BÀI TẬP KHÓ (5 câu) ==========
+        { 
+            category: "📕 BÀI TẬP KHÓ",
+            text: "Phát biểu nào sau đây về '0 tuyệt đối' là đúng?",
+            options: ["0°C là 0 tuyệt đối", "0kg, 0m, 0 giây là 0 tuyệt đối", "Interval có 0 tuyệt đối", "Ordinal có 0 tuyệt đối"],
+            correct: 1,
+            explanation: "🔢 0kg = không có khối lượng, 0m = không chiều dài – đó là 0 tuyệt đối, chỉ có ở thang Ratio."
+        },
+        { 
+            category: "📕 BÀI TẬP KHÓ",
+            text: "Khi nghiên cứu thu nhập hàng tháng (VNĐ), thang đo phù hợp nhất là:",
+            options: ["Nominal", "Ordinal", "Interval", "Ratio"],
+            correct: 3,
+            explanation: "💰 Thu nhập có 0 đồng (không có tiền), có thể nói 'gấp đôi' → Ratio."
+        },
+        { 
+            category: "📕 BÀI TẬP KHÓ",
+            text: "Nếu một biến số có thể tính trung bình cộng, nhưng không thể nói 'giá trị A gấp đôi giá trị B', biến đó thuộc thang đo nào?",
+            options: ["Nominal", "Ordinal", "Interval", "Ratio"],
+            correct: 2,
+            explanation: "📏 Interval (ví dụ °C): tính được trung bình, nhưng 40°C không phải 'gấp đôi' 20°C về năng lượng nhiệt."
+        },
+        { 
+            category: "📕 BÀI TẬP KHÓ",
+            text: "Ẩn dụ 'một thìa canh cho cả nồi' trong bài giảng muốn nhấn mạnh điều gì?",
+            options: ["Nên ăn canh từng thìa", "Mẫu đại diện có thể suy diễn cho tổng thể", "Thống kê mô tả là đủ", "Chỉ cần khảo sát một người"],
+            correct: 1,
+            explanation: "🥣 Một thìa canh (mẫu) phản ánh hương vị cả nồi (tổng thể) → bản chất của suy diễn thống kê."
+        },
+        { 
+            category: "📕 BÀI TẬP KHÓ",
+            text: "Một nhà nghiên cứu dùng thang đo 'năm sinh' (1990, 1991, 1992...). Năm sinh thuộc thang đo nào?",
+            options: ["Nominal", "Ordinal", "Interval", "Ratio"],
+            correct: 2,
+            explanation: "📅 Năm sinh: khoảng cách bằng nhau (1 năm), nhưng năm 0 chỉ quy ước, không có 'năm 0 tuyệt đối' → Interval."
+        }
+    ];
+
+    const root = document.getElementById("quiz-root");
+    let currentCat = "";
+
+    function renderQuiz() {
+        root.innerHTML = "";
+        questions.forEach((q, idx) => {
+            if (q.category !== currentCat) {
+                currentCat = q.category;
+                const sectionDiv = document.createElement("div");
+                sectionDiv.className = "section-title";
+                sectionDiv.innerText = q.category;
+                root.appendChild(sectionDiv);
+            }
+
+            const card = document.createElement("div");
+            card.className = "question-card";
+            card.id = `q-${idx}`;
+
+            const qText = document.createElement("div");
+            qText.className = "question-text";
+            qText.innerHTML = `<span style="background:#e67e22; color:white; border-radius:40px; display:inline-block; width:28px; text-align:center; margin-right:12px;">${idx+1}</span> ${q.text}`;
+            card.appendChild(qText);
+
+            const optsDiv = document.createElement("div");
+            optsDiv.className = "options";
+            const letters = ["A", "B", "C", "D"];
+            q.options.forEach((opt, optIdx) => {
+                const btn = document.createElement("button");
+                btn.className = "opt-btn";
+                btn.setAttribute("data-opt", optIdx);
+                btn.innerHTML = `<span class="opt-letter">${letters[optIdx]}</span> ${opt}`;
+                btn.onclick = () => handleAnswer(idx, optIdx);
+                optsDiv.appendChild(btn);
+            });
+            card.appendChild(optsDiv);
+
+            const explDiv = document.createElement("div");
+            explDiv.className = "explanation";
+            explDiv.id = `exp-${idx}`;
+            explDiv.innerHTML = `<strong>📖 Giải thích:</strong> ${q.explanation}`;
+            card.appendChild(explDiv);
+
+            root.appendChild(card);
+        });
+        if (window.MathJax && window.MathJax.typesetPromise) {
+            MathJax.typesetPromise();
+        }
+    }
+
+    function handleAnswer(qid, selected) {
+        const q = questions[qid];
+        const card = document.getElementById(`q-${qid}`);
+        const btns = card.querySelectorAll(".opt-btn");
+        const explBox = document.getElementById(`exp-${qid}`);
+        
+        if (btns[0].disabled) return;
+        
+        // Tô đáp án đúng
+        btns[q.correct].classList.add("correct");
+        
+        let feedbackHtml = "";
+        if (selected === q.correct) {
+            btns[selected].classList.add("correct");
+            feedbackHtml = '<div class="feedback" style="color:#2ecc71;">✅ CHÍNH XÁC! Bạn chọn đúng.</div>';
+        } else {
+            btns[selected].classList.add("incorrect");
+            const correctLetter = String.fromCharCode(65 + q.correct);
+            feedbackHtml = `<div class="feedback" style="color:#e74c3c;">❌ SAI. Đáp án đúng là ${correctLetter}: ${q.options[q.correct]}</div>`;
+        }
+        
+        explBox.style.display = "block";
+        const oldFb = explBox.querySelector(".feedback");
+        if (oldFb) oldFb.remove();
+        explBox.insertAdjacentHTML("beforeend", feedbackHtml);
+        
+        // Vô hiệu hóa các nút
+        btns.forEach(btn => {
+            btn.disabled = true;
+            btn.style.cursor = "default";
+        });
+        
+        if (window.MathJax && window.MathJax.typesetPromise) {
+            MathJax.typesetPromise([explBox]);
+        }
+    }
+
+    renderQuiz();
+</script>
+</body>
+</html>
