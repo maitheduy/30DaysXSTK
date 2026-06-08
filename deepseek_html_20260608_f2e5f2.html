@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trắc nghiệm: Xu hướng trung tâm & Vị thế - Thống kê mô tả</title>
+    <!-- MathJax cho công thức toán -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)']],
+                displayMath: [['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f0f6fc;
+            color: #1e2f3e;
+            padding: 30px 20px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a4d8c, #0e3a6b);
+            color: white;
+            padding: 28px 24px;
+            border-radius: 36px;
+            margin-bottom: 36px;
+            text-align: center;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .section-title {
+            font-size: 1.7rem;
+            font-weight: 700;
+            margin: 40px 0 20px 0;
+            padding-left: 16px;
+            border-left: 8px solid #e67e22;
+            color: #1a4d8c;
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+            margin-bottom: 28px;
+            padding: 22px 26px;
+            transition: 0.2s;
+            border: 1px solid #e2edf7;
+        }
+
+        .question-text {
+            font-size: 1.18rem;
+            font-weight: 600;
+            color: #1f3b4c;
+            margin-bottom: 20px;
+            background: #f8fafd;
+            padding: 12px 18px;
+            border-radius: 24px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .opt-btn {
+            background: #f9fcff;
+            border: 2px solid #dce5f0;
+            border-radius: 60px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: left;
+            cursor: pointer;
+            transition: 0.15s;
+            display: flex;
+            align-items: center;
+            font-family: inherit;
+            color: #1f3b4c;
+        }
+
+        .opt-btn:hover:not(:disabled) {
+            background: #eef2ff;
+            border-color: #e67e22;
+            transform: scale(1.01);
+        }
+
+        .opt-letter {
+            font-weight: 800;
+            background: #e2eaf1;
+            width: 34px;
+            height: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 40px;
+            margin-right: 16px;
+            font-size: 1rem;
+        }
+
+        .opt-btn.correct {
+            background: #2ecc71;
+            border-color: #27ae60;
+            color: white;
+        }
+        .opt-btn.correct .opt-letter {
+            background: white;
+            color: #2ecc71;
+        }
+
+        .opt-btn.incorrect {
+            background: #e74c3c;
+            border-color: #c0392b;
+            color: white;
+        }
+        .opt-btn.incorrect .opt-letter {
+            background: white;
+            color: #e74c3c;
+        }
+
+        .explanation {
+            background: #fef5e8;
+            border-left: 6px solid #e67e22;
+            padding: 16px 20px;
+            border-radius: 20px;
+            margin-top: 14px;
+            display: none;
+            font-size: 0.95rem;
+            color: #2c3e50;
+        }
+
+        .feedback {
+            margin-top: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            font-size: 0.85rem;
+            color: #5a6e85;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>📐 XU HƯỚNG TRUNG TÂM & VỊ THẾ</h1>
+        <p>Mean · Median · Mode · Weighted Mean · Trimmed Mean · Percentile · Quartile · Five‑number summary</p>
+        <p style="font-size: 0.9rem; margin-top: 8px;">✨ Chọn đáp án – Xem ngay đúng/sai + giải thích chi tiết ✨</p>
+    </div>
+    <div id="quiz-root"></div>
+    <footer>📊 “Mean – Median – Mode – Quartile – Percentile: Kể chuyện bằng những con số đại diện” | Dr.rer.nat Duymt</footer>
+</div>
+
+<script>
+    // ------------------- 20 CÂU HỎI (5 lý thuyết, 5 dễ, 5 TB, 5 khó) -------------------
+    const questions = [
+        // ========== LÝ THUYẾT (5 câu) ==========
+        { 
+            category: "📘 LÝ THUYẾT NỀN TẢNG",
+            text: "Công thức tổng quát của số trung bình (Mean) là:",
+            options: ["\\(\\bar{x} = \\sum x_i\\)", "\\(\\bar{x} = \\frac{\\sum x_i}{n}\\)", "\\(\\bar{x} = \\frac{n}{\\sum x_i}\\)", "\\(\\bar{x} = \\prod x_i\\)"],
+            correct: 1,
+            explanation: "✅ Mean = tổng các giá trị chia cho số lượng quan sát: \\(\\bar{x} = \\frac{\\sum_{i=1}^{n} x_i}{n}\\)."
+        },
+        { 
+            category: "📘 LÝ THUYẾT NỀN TẢNG",
+            text: "Số trung vị (Median) được định nghĩa là:",
+            options: ["Giá trị xuất hiện nhiều nhất", "Giá trị trung bình cộng", "Giá trị nằm chính giữa sau khi sắp xếp", "Giá trị lớn nhất trừ giá trị nhỏ nhất"],
+            correct: 2,
+            explanation: "🎯 Median là giá trị ở vị trí trung tâm của tập dữ liệu đã sắp xếp, rất robust với outlier."
+        },
+        { 
+            category: "📘 LÝ THUYẾT NỀN TẢNG",
+            text: "Mode (số yếu vị) đặc biệt hữu ích cho loại dữ liệu nào?",
+            options: ["Dữ liệu định lượng liên tục", "Dữ liệu định danh (Nominal)", "Dữ liệu tỷ lệ (Ratio)", "Dữ liệu khoảng (Interval)"],
+            correct: 1,
+            explanation: "🎨 Mode cho biết giá trị xuất hiện nhiều nhất, rất hữu ích với dữ liệu định danh (màu mắt, giới tính, nhãn hiệu)."
+        },
+        { 
+            category: "📘 LÝ THUYẾT NỀN TẢNG",
+            text: "Chỉ số nào sau đây được gọi là 'robust' (mạnh) với giá trị ngoại lai (outlier)?",
+            options: ["Mean", "Weighted Mean", "Median", "Trimmed Mean 10%"],
+            correct: 2,
+            explanation: "🛡️ Median chỉ phụ thuộc vào vị trí trung tâm, không bị kéo lệch bởi outlier. Trimmed Mean cũng khắc phục được nhưng Median là robust nhất."
+        },
+        { 
+            category: "📘 LÝ THUYẾT NỀN TẢNG",
+            text: "Five-number summary bao gồm những thành phần nào?",
+            options: ["Mean, Median, Mode, Min, Max", "Min, Q1, Median, Q3, Max", "Q1, Q2, Q3, Q4, Mean", "P10, P25, P50, P75, P90"],
+            correct: 1,
+            explanation: "📦 Five-number summary: Min – Q1 – Median – Q3 – Max, là cơ sở để vẽ Boxplot."
+        },
+
+        // ========== BÀI TẬP DỄ (5 câu) ==========
+        { 
+            category: "📗 BÀI TẬP DỄ",
+            text: "Tính Mean của tập số: 4, 8, 6, 5, 3",
+            options: ["5.0", "5.2", "5.4", "6.0"],
+            correct: 1,
+            explanation: "📏 Mean = (4+8+6+5+3)/5 = 26/5 = 5.2."
+        },
+        { 
+            category: "📗 BÀI TẬP DỄ",
+            text: "Với dữ liệu đã sắp xếp: 3, 5, 7, 9, 11, 13. Median là:",
+            options: ["7", "8", "9", "10"],
+            correct: 1,
+            explanation: "📐 n=6 chẵn → Median = (7+9)/2 = 8."
+        },
+        { 
+            category: "📗 BÀI TẬP DỄ",
+            text: "Tập dữ liệu: 2, 2, 3, 4, 4, 4, 5. Mode là:",
+            options: ["2", "3", "4", "5"],
+            correct: 2,
+            explanation: "✨ Mode = giá trị xuất hiện nhiều nhất → số 4 xuất hiện 3 lần."
+        },
+        { 
+            category: "📗 BÀI TẬP DỄ",
+            text: "Q1 (tứ phân vị thứ nhất) tương ứng với bách phân vị nào?",
+            options: ["P10", "P25", "P50", "P75"],
+            correct: 1,
+            explanation: "📊 Q1 = P25 (25% dữ liệu thấp nhất)."
+        },
+        { 
+            category: "📗 BÀI TẬP DỄ",
+            text: "Nếu dữ liệu có Median = 50, Q1 = 30, Q3 = 70, nhận xét về phân phối:",
+            options: ["Lệch trái", "Lệch phải", "Đối xứng", "Không kết luận được"],
+            correct: 2,
+            explanation: "⚖️ Median (50) nằm chính giữa Q1 (30) và Q3 (70) → phân phối đối xứng."
+        },
+
+        // ========== BÀI TẬP TRUNG BÌNH (5 câu) ==========
+        { 
+            category: "📙 BÀI TẬP TRUNG BÌNH",
+            text: "Một sinh viên có điểm Toán hệ số 3 là 8, Lý hệ số 2 là 7, Hóa hệ số 1 là 9. Weighted Mean là:",
+            options: ["7.5", "7.83", "8.0", "8.17"],
+            correct: 1,
+            explanation: "📐 \\(\\bar{x}_w = (3\\times8 + 2\\times7 + 1\\times9)/(3+2+1) = (24+14+9)/6 = 47/6 \\approx 7.83\\)."
+        },
+        { 
+            category: "📙 BÀI TẬP TRUNG BÌNH",
+            text: "Dữ liệu: 10, 12, 14, 16, 18, 100. So sánh Mean và Median:",
+            options: ["Mean < Median", "Mean = Median", "Mean > Median", "Không so sánh được"],
+            correct: 2,
+            explanation: "⚠️ Mean = (10+12+14+16+18+100)/6 = 170/6 ≈ 28.33; Median = (14+16)/2=15 → Mean > Median do outlier 100."
+        },
+        { 
+            category: "📙 BÀI TẬP TRUNG BÌNH",
+            text: "Percentile thứ 90 (P90) có nghĩa là:",
+            options: ["90% dữ liệu lớn hơn giá trị đó", "Có 90% dữ liệu nhỏ hơn hoặc bằng giá trị đó", "Điểm số bằng 90", "Đứng thứ 90 trong danh sách"],
+            correct: 1,
+            explanation: "🎯 P90 là giá trị mà 90% dữ liệu nằm dưới nó."
+        },
+        { 
+            category: "📙 BÀI TẬP TRUNG BÌNH",
+            text: "Cho Five-number summary: Min=5, Q1=12, Median=20, Q3=28, Max=45. Khoảng tứ phân vị IQR là:",
+            options: ["12", "16", "20", "28"],
+            correct: 1,
+            explanation: "📦 IQR = Q3 - Q1 = 28 - 12 = 16."
+        },
+        { 
+            category: "📙 BÀI TẬP TRUNG BÌNH",
+            text: "Trimmed Mean 10% dùng để làm gì?",
+            options: ["Chỉ tính trung bình 10% số liệu", "Loại bỏ 10% giá trị nhỏ nhất và 10% lớn nhất rồi tính mean", "Chỉ giữ 10% dữ liệu ở giữa", "Nhân tất cả với 0.9"],
+            correct: 1,
+            explanation: "✂️ Trimmed mean cắt bỏ k% hai đầu để giảm ảnh hưởng outlier, vẫn giữ thông tin phần lớn dữ liệu."
+        },
+
+        // ========== BÀI TẬP KHÓ (5 câu) ==========
+        { 
+            category: "📕 BÀI TẬP KHÓ",
+            text: "Khi nào nên dùng Median thay vì Mean để đại diện cho xu hướng trung tâm?",
+            options: ["Dữ liệu đối xứng", "Dữ liệu có phân phối chuẩn", "Dữ liệu có outlier mạnh", "Dữ liệu định danh"],
+            correct: 2,
+            explanation: "🛡️ Median robust với outlier, nên dùng khi dữ liệu có giá trị cực đoan kéo lệch mean."
+        },
+        { 
+            category: "📕 BÀI TẬP KHÓ",
+            text: "Nếu Median gần Q1 hơn Q3, phân phối có dạng:",
+            options: ["Đối xứng", "Lệch trái (đuôi trái dài)", "Lệch phải (đuôi phải dài)", "Lưỡng mode"],
+            correct: 2,
+            explanation: "📈 Median gần Q1 hơn → nhiều giá trị thấp dồn về bên trái? Thực tế: Median gần Q1 → đuôi phải dài (lệch phải)."
+        },
+        { 
+            category: "📕 BÀI TẬP KHÓ",
+            text: "Với tập dữ liệu: 5, 7, 8, 9, 10, 12, 15, 20. Q3 (tứ phân vị thứ ba) là:",
+            options: ["10", "12", "13.5", "15"],
+            correct: 2,
+            explanation: "📊 Sắp xếp: 5,7,8,9,10,12,15,20. n=8, Q3 là trung bình của giá trị thứ 6 và 7: (12+15)/2 = 13.5."
+        },
+        { 
+            category: "📕 BÀI TẬP KHÓ",
+            text: "Weighted Mean được ứng dụng phổ biến trong lĩnh vực nào?",
+            options: ["Tính điểm trung bình môn (hệ số)", "Tính nhiệt độ trung bình ngày", "Tìm số áo cầu thủ", "Xác định mode"],
+            correct: 0,
+            explanation: "🎓 Weighted Mean dùng khi các quan sát có trọng số khác nhau: điểm hệ số, chỉ số giá tiêu dùng."
+        },
+        { 
+            category: "📕 BÀI TẬP KHÓ",
+            text: "Five-number summary của một phân phối là: Min=2, Q1=5, Median=8, Q3=12, Max=30. Nhận xét nào đúng?",
+            options: ["Phân phối đối xứng", "Có outlier phía trên", "Mean chắc chắn bằng 8", "IQR = 10"],
+            correct: 1,
+            explanation: "⚠️ Max=30, Q3=12 → có thể có outlier phía trên (khoảng cách từ Q3 đến Max > 1.5×IQR)."
+        }
+    ];
+
+    const root = document.getElementById("quiz-root");
+    let currentCat = "";
+
+    function renderQuiz() {
+        root.innerHTML = "";
+        questions.forEach((q, idx) => {
+            if (q.category !== currentCat) {
+                currentCat = q.category;
+                const sectionDiv = document.createElement("div");
+                sectionDiv.className = "section-title";
+                sectionDiv.innerText = q.category;
+                root.appendChild(sectionDiv);
+            }
+
+            const card = document.createElement("div");
+            card.className = "question-card";
+            card.id = `q-${idx}`;
+
+            const qText = document.createElement("div");
+            qText.className = "question-text";
+            qText.innerHTML = `<span style="background:#e67e22; color:white; border-radius:40px; display:inline-block; width:28px; text-align:center; margin-right:12px;">${idx+1}</span> ${q.text}`;
+            card.appendChild(qText);
+
+            const optsDiv = document.createElement("div");
+            optsDiv.className = "options";
+            const letters = ["A", "B", "C", "D"];
+            q.options.forEach((opt, optIdx) => {
+                const btn = document.createElement("button");
+                btn.className = "opt-btn";
+                btn.setAttribute("data-opt", optIdx);
+                btn.innerHTML = `<span class="opt-letter">${letters[optIdx]}</span> ${opt}`;
+                btn.onclick = () => handleAnswer(idx, optIdx);
+                optsDiv.appendChild(btn);
+            });
+            card.appendChild(optsDiv);
+
+            const explDiv = document.createElement("div");
+            explDiv.className = "explanation";
+            explDiv.id = `exp-${idx}`;
+            explDiv.innerHTML = `<strong>📖 Giải thích:</strong> ${q.explanation}`;
+            card.appendChild(explDiv);
+
+            root.appendChild(card);
+        });
+        if (window.MathJax && window.MathJax.typesetPromise) {
+            MathJax.typesetPromise();
+        }
+    }
+
+    function handleAnswer(qid, selected) {
+        const q = questions[qid];
+        const card = document.getElementById(`q-${qid}`);
+        const btns = card.querySelectorAll(".opt-btn");
+        const explBox = document.getElementById(`exp-${qid}`);
+        
+        if (btns[0].disabled) return;
+        
+        // Tô đáp án đúng
+        btns[q.correct].classList.add("correct");
+        
+        let feedbackHtml = "";
+        if (selected === q.correct) {
+            btns[selected].classList.add("correct");
+            feedbackHtml = '<div class="feedback" style="color:#2ecc71;">✅ CHÍNH XÁC! Bạn chọn đúng.</div>';
+        } else {
+            btns[selected].classList.add("incorrect");
+            const correctLetter = String.fromCharCode(65 + q.correct);
+            feedbackHtml = `<div class="feedback" style="color:#e74c3c;">❌ SAI. Đáp án đúng là ${correctLetter}: ${q.options[q.correct]}</div>`;
+        }
+        
+        explBox.style.display = "block";
+        const oldFb = explBox.querySelector(".feedback");
+        if (oldFb) oldFb.remove();
+        explBox.insertAdjacentHTML("beforeend", feedbackHtml);
+        
+        // Vô hiệu hóa nút
+        btns.forEach(btn => {
+            btn.disabled = true;
+            btn.style.cursor = "default";
+        });
+        
+        if (window.MathJax && window.MathJax.typesetPromise) {
+            MathJax.typesetPromise([explBox]);
+        }
+    }
+
+    renderQuiz();
+</script>
+</body>
+</html>
